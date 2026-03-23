@@ -1,5 +1,5 @@
 {
   "name": "Vanilla Step Sequencer",
   "description": "A web-based step sequencer and drum machine built with Vanilla HTML, CSS, and JS using the Web Audio API.",
-  "requestFramePermissions": []
+  "requestFramePermissions": ["microphone"]
 }
