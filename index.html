@@ -41,10 +41,11 @@
             font-family: var(--font-sans);
             background-color: var(--bg-color);
             color: var(--text-main);
-            height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             user-select: none;
             -webkit-user-select: none;
             background-image: 
@@ -56,7 +57,7 @@
         .container {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            min-height: 100dvh;
             max-width: 1100px;
             margin: 0 auto;
             width: 100%;
@@ -346,7 +347,6 @@
             align-content: stretch;
             height: 100%;
             width: 100%;
-            touch-action: none;
         }
 
         .track-row {
@@ -363,7 +363,6 @@
             border: 1px solid var(--cell-border);
             cursor: pointer;
             transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-            touch-action: none;
             position: relative;
             min-height: 44px;
             box-shadow: 
@@ -659,30 +658,74 @@
                 width: 100%;
             }
             .sequencer {
-                padding: 16px 12px;
+                padding: 16px 8px;
                 border-radius: 8px;
+                overflow: hidden;
             }
             .track-names {
-                font-size: 0.6rem;
-                padding-right: 12px;
-                min-width: 80px;
+                font-size: 0.55rem;
+                padding-right: 6px;
+                min-width: 65px;
+                max-width: 80px;
             }
             .track-name {
-                flex-direction: column;
-                align-items: flex-end;
-                justify-content: center;
-                gap: 2px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4px 2px;
+                align-items: center;
+                margin-bottom: 2px;
+            }
+            .track-label {
+                min-width: auto;
+                text-align: left;
+                grid-column: 1 / 2;
+                grid-row: 1;
+                font-size: 0.55rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .track-controls {
+                display: contents;
             }
             .subdiv-btn {
-                font-size: 0.55rem;
-                padding: 1px 4px;
-                min-width: 30px;
+                grid-column: 2 / 3;
+                grid-row: 1;
+                width: 100%;
+            }
+            .rec-btn {
+                grid-column: 1 / 2;
+                grid-row: 2;
+                width: 100%;
+            }
+            .mode-toggle {
+                grid-column: 2 / 3;
+                grid-row: 2;
+                width: 100%;
+            }
+            .subdiv-btn, .rec-btn, .mode-toggle {
+                font-size: 0.5rem;
+                padding: 6px 0;
+                min-width: 0;
+                text-align: center;
             }
             .grid-container {
                 padding-left: 8px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .grid-container::-webkit-scrollbar {
+                height: 6px;
+                display: block;
+            }
+            .grid-container::-webkit-scrollbar-thumb {
+                background: var(--panel-border);
+                border-radius: 3px;
             }
             .grid {
                 gap: 4px;
+                min-width: max-content;
+                padding-bottom: 8px;
             }
             .track-row {
                 gap: 4px;
@@ -690,7 +733,9 @@
             .step-cell {
                 border-width: 1px;
                 border-radius: 4px;
-                min-height: 30px;
+                min-height: 48px;
+                min-width: 24px;
+                font-size: 7px;
             }
             .track-row.subdiv-16 .step-cell:nth-child(4n+1),
             .track-row.subdiv-8 .step-cell:nth-child(2n+1),
@@ -750,13 +795,13 @@
                     </div>
                 </div>
                 <div class="track-name">
-                    <div class="track-label">SYNTH NOTE</div>
+                    <div class="track-label">NOTE</div>
                     <div class="track-controls">
                         <button class="subdiv-btn" data-track="3">16th</button>
                     </div>
                 </div>
                 <div class="track-name">
-                    <div class="track-label">SYNTH VEL</div>
+                    <div class="track-label">VEL</div>
                     <div class="track-controls">
                         <button class="subdiv-btn" data-track="4">16th</button>
                     </div>
@@ -767,15 +812,13 @@
                     <!-- Cells generated by JS -->
                 </div>
             </div>
-            <div id="note-picker" style="display:none; position:absolute; z-index:100; grid-template-columns: repeat(4, 1fr);">
-                <button data-note="C3">C3</button>
-                <button data-note="D3">D3</button>
-                <button data-note="E3">E3</button>
-                <button data-note="F3">F3</button>
-                <button data-note="G3">G3</button>
-                <button data-note="A3">A3</button>
-                <button data-note="B3">B3</button>
-                <button data-note="C4">C4</button>
+            <div id="note-picker" style="display:none; position:absolute; z-index:100; grid-template-columns: repeat(7, 1fr);">
+                <!-- C3 to C7 Naturals -->
+                <button data-note="C3">C3</button><button data-note="D3">D3</button><button data-note="E3">E3</button><button data-note="F3">F3</button><button data-note="G3">G3</button><button data-note="A3">A3</button><button data-note="B3">B3</button>
+                <button data-note="C4">C4</button><button data-note="D4">D4</button><button data-note="E4">E4</button><button data-note="F4">F4</button><button data-note="G4">G4</button><button data-note="A4">A4</button><button data-note="B4">B4</button>
+                <button data-note="C5">C5</button><button data-note="D5">D5</button><button data-note="E5">E5</button><button data-note="F5">F5</button><button data-note="G5">G5</button><button data-note="A5">A5</button><button data-note="B5">B5</button>
+                <button data-note="C6">C6</button><button data-note="D6">D6</button><button data-note="E6">E6</button><button data-note="F6">F6</button><button data-note="G6">G6</button><button data-note="A6">A6</button><button data-note="B6">B6</button>
+                <button data-note="C7">C7</button>
             </div>
         </main>
     </div>
@@ -989,7 +1032,9 @@
                 }
 
                 isDrawing = true;
-                gridElement.setPointerCapture(e.pointerId);
+                if (e.pointerType === 'mouse') {
+                    gridElement.setPointerCapture(e.pointerId);
+                }
             });
 
             document.getElementById('note-picker').addEventListener('click', (e) => {
@@ -1004,6 +1049,8 @@
 
             gridElement.addEventListener('pointermove', (e) => {
                 if (!isDrawing) return;
+                if (e.pointerType === 'touch') return;
+                
                 const element = document.elementFromPoint(e.clientX, e.clientY);
                 if (!element) return;
                 const cell = element.closest('.step-cell');
@@ -1021,13 +1068,17 @@
             gridElement.addEventListener('pointerup', (e) => {
                 isDrawing = false;
                 lastToggledCell = null;
-                gridElement.releasePointerCapture(e.pointerId);
+                if (gridElement.hasPointerCapture(e.pointerId)) {
+                    gridElement.releasePointerCapture(e.pointerId);
+                }
             });
 
             gridElement.addEventListener('pointercancel', (e) => {
                 isDrawing = false;
                 lastToggledCell = null;
-                gridElement.releasePointerCapture(e.pointerId);
+                if (gridElement.hasPointerCapture(e.pointerId)) {
+                    gridElement.releasePointerCapture(e.pointerId);
+                }
             });
 
             // Audio Synthesis
@@ -1122,18 +1173,22 @@
                 gain.connect(audioCtx.destination);
                 
                 // Map note names to frequencies
-                const notes = {
-                    'C3': 130.81,
-                    'D3': 146.83,
-                    'E3': 164.81,
-                    'F3': 174.61,
-                    'G3': 196.00,
-                    'A3': 220.00,
-                    'B3': 246.94,
-                    'C4': 261.63
-                };
+                function getFreq(n) {
+                    const noteStr = n.toUpperCase();
+                    const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+                    let octave = parseInt(noteStr.slice(-1));
+                    let noteName = noteStr.slice(0, -1);
+                    if (noteName === 'DB') noteName = 'C#';
+                    if (noteName === 'EB') noteName = 'D#';
+                    if (noteName === 'GB') noteName = 'F#';
+                    if (noteName === 'AB') noteName = 'G#';
+                    if (noteName === 'BB') noteName = 'A#';
+                    let noteIdx = noteNames.indexOf(noteName);
+                    if (noteIdx === -1) return 130.81;
+                    return 440 * Math.pow(2, (octave - 4) + (noteIdx - 9) / 12);
+                }
                 
-                osc.frequency.setValueAtTime(notes[note] || 130.81, time);
+                osc.frequency.setValueAtTime(getFreq(note), time);
                 
                 const filter = audioCtx.createBiquadFilter();
                 filter.type = 'lowpass';
